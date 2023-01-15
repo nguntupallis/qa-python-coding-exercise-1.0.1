@@ -6,7 +6,6 @@ import requests
 import tests.constants as constants
 from tests.utilities.helpers.apiClient import apiClient
 
-
 @scenario('../features/versionEndpoint.feature', 'Check Status Code')
 def test_status_code():
     print("\nTest status code")

@@ -27,5 +27,7 @@ uvicorn main:app --reload
 ```shell
 docker build -t apiserver .
 
+netsh http add iplisten ipaddress=:: (Windows launch terminal as admin)
+
 docker run -p 80:80 -it apiserver
 ```
