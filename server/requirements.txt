@@ -29,3 +29,5 @@ urllib3==1.26.9
 uvicorn==0.18.1
 watchgod==0.8.2
 websockets==10.3
+pytest-bdd=3.0.9
+allure-pytest=4.5.0
