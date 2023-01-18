@@ -10,8 +10,7 @@
     cd server
     minikube start
     kubectl create -f job-config-file.yaml
-    kubectl get pods (To get the pod name)
-    kubectl port-forward <pod-name> 8000:8000 (Leave terminal open)
+    kubectl port-forward "$(kubectl get pods --no-headers -o custom-columns=":metadata.name")" 8000:8000  - (Leave terminal open)
 
 ## Setup server locally using Docker (If server was not setup using the kubernetes job)
 

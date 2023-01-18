@@ -2,6 +2,9 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: uvicorn-pytest-job
+  labels:
+    env: dev
+    region: us-west
 spec:
   template:
     spec:
