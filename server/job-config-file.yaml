@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: uvicorn-pytest-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: uvicorn-pytest
+        image: nguntupalli/uvicorn-pytest:1
+        ports:
+        - containerPort: 8000
+      restartPolicy: Never
+  backoffLimit: 4
