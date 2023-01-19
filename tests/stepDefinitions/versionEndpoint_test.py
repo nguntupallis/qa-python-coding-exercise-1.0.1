@@ -22,12 +22,13 @@ def given_i_have_the_endpoint():
 
 @when("I make the <requestType> request")
 def when_i_make_the_request(requestType):
+    pytest.requestType = requestType
     pytest.response = requests.request(requestType, pytest.base_url)
 
 @then("the request should return <status> status")
 def then_the_request_should_return_status(status):
     response = pytest.response
-    assert response.status_code == int(status), 'Expected {} but {} was returned'.format(status, response.status_code)
+    assert response.status_code == int(status), 'For {} request, Expected {} but {} was returned'.format(pytest.requestType.upper(), status, response.status_code)
 
 @scenario('../features/versionEndpoint.feature', 'Check get version response body')
 def test_response_body():

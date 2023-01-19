@@ -24,6 +24,7 @@ def given_i_have_the_endpoint():
 
 @when("I make the <requestType> request")
 def when_i_make_the_request(requestType):
+    pytest.requestType = requestType
     if (requestType == "post"):
         requestBody = buildProductRequestBody.buildRequest("SAVINGS", "SAVINGS", 1.1)
         pytest.response = requests.post(pytest.base_url, data=requestBody)        
@@ -33,7 +34,7 @@ def when_i_make_the_request(requestType):
 @then("the request should return <status> status")
 def then_the_request_should_return_status(status):
     response = pytest.response
-    assert response.status_code == int(status), 'Expected {} but {} was returned'.format(status, response.status_code)
+    assert response.status_code == int(status), 'For {} request, Expected {} but {} was returned'.format(pytest.requestType.upper(), status, response.status_code)
 
 @scenario('../features/jsonEndpoint.feature', 'Check post json response body')
 def test__post_json_response_body():

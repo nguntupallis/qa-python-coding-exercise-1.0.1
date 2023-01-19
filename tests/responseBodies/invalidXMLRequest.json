@@ -1,0 +1,8 @@
+{
+    "detail": "Invalid request",
+    "errors": {
+        "debug": [
+            "value could not be parsed to a boolean"
+        ]
+    }
+}
