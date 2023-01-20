@@ -29,9 +29,12 @@
     Install Allure using ```brew install allure```    
     allure serve allure-results  (This will open the test results in a new browser. I tried hard to get allure-results to generate in Docker but failed)
 
-## Github actions are setup to run the docker images and show the logs of the test run
 
-Note: 3 tests would fail normally but Requirement [REQ-3.5] The 'data/decision_engine/overall' item should be 'Accept' unless one of the rules has an outcome of 'Decline' in which case the overall result should be 'Decline' was failing when one of the rules decision is decline. I asked more clarification regarding this but since there was no feedback I had to accept that this test will fail. I will correct the tests based on the feedback.
+## Github actions are setup to run the docker images and show the logs of the container running the tests
+
+Note: [REQ-3.5] The 'data/decision_engine/overall' item should be 'Accept' unless one of the rules has an outcome of 'Decline' in which case the overall result should be 'Decline' was failing when one of the rules decision is decline. 
+
+I requested for more clarification regarding this but since there was no feedback I had to accept that this test will fail for now. I will update the tests based on the feedback.
 
 Note: [REQ-3.1] The /xml endpoint only supports the GET method and [REQ-3.3] A successful call to the POST /xml endpoint returns a status code of 201
 
