@@ -22,6 +22,7 @@ jobs:
       run: |
         docker build -t apitests -f tests/tests.dockerfile tests/
         docker run -d --name apitests -it apitests
+        docker logs apitest
     - name: generate test results
       run: allure serve allure-results
         
