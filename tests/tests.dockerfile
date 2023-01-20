@@ -18,5 +18,5 @@ RUN mkdir -p allure-results
 RUN pip install -r requirements.txt
 
 # Run pytest when the container starts
-ENTRYPOINT pytest
+ENTRYPOINT tox
 # CMD allure serve allure-results && tail -f /dev/null
