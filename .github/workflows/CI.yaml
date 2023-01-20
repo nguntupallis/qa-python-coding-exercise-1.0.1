@@ -24,7 +24,7 @@ jobs:
         docker run -d --name apitests -it apitests
     - name: View container logs
       run: |
-        docker logs apitest
+        docker logs apitests
     - name: generate test results
       run: allure serve allure-results
         
