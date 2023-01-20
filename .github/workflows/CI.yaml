@@ -21,7 +21,7 @@ jobs:
     - name: Build tests container
       run: |
         docker build -t apitests -f tests/tests.dockerfile tests/
-        docker run -d --name apitests -it apitests
+        docker run -d --name apitests --network=host -it apitests
         docker logs -f apitests
     - name: View container logs
       run: |
