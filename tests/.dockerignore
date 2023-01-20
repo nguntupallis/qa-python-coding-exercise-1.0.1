@@ -2,3 +2,4 @@ docker
 .pytest_cache
 .vscode
 README.md
+allure-reports

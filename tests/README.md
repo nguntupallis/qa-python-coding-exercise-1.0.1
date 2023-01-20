@@ -23,3 +23,8 @@
     cd tests
     docker build -f tests.dockerfile -t apitests .
     docker run --network=host apitests
+
+## Generate test results
+
+    Install Allure using ```brew install allure```    
+    
