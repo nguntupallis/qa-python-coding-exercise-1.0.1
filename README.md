@@ -1,4 +1,4 @@
-# Run tests with Docker
+# Running tests
 
 ## Setup server locally using Kubernetes job
 
