@@ -15,7 +15,7 @@
 ## Setup server locally using Docker (If server was not setup using the kubernetes job)
 
     cd server
-    docker build -t apiserver .
+    docker build -f server.dockerfile -t apiserver .
     docker run -p 8000:8000 -it apiserver (Port already allocated error will come up if kube job is still running in another terminal, the other terminal need to be closed in order for this image to run)
 
 ## Run Api tests using Docker
