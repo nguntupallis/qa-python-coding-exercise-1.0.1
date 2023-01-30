@@ -22,5 +22,5 @@ RUN pip install -r requirements.txt
 # Run pytest when the container starts
 ENTRYPOINT tox
 
-RUN if [ $? -ne 0 ]; then curl -X POST -H 'Content-type: application/json' --data '{"text":"Test Failed :disappointed: Please check the logs"}' $SLACK_WEBHOOK_URL; else curl -X POST -H 'Content-type: application/json' --data '{"text":"Test Passed :smile:"}' $SLACK_WEBHOOK_URL; fi
+# RUN if [ $? -ne 0 ]; then curl -X POST -H 'Content-type: application/json' --data '{"text":"Test Failed :disappointed: Please check the logs"}' $SLACK_WEBHOOK_URL; else curl -X POST -H 'Content-type: application/json' --data '{"text":"Test Passed :smile:"}' $SLACK_WEBHOOK_URL; fi
 # CMD allure serve allure-results && tail -f /dev/null
