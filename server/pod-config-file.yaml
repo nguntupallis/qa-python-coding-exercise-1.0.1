@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: uvicorn-pytest-pod
+  labels:
+    env: dev
+    region: us-west
+spec:
+  containers:
+  - name: uvicorn-pytest
+    image: nguntupalli/uvicorn-pytest:1
+    ports:
+    - containerPort: 8000
