@@ -5,7 +5,7 @@ Scenario: Check Status Code
     Given I have the endpoint - json
     When I make the <requestType> request
     Then the request should return <status> status
-
+    
     Examples:
     | requestType  | status    |
     | get          | 405       |
@@ -37,7 +37,7 @@ Scenario: Check non-post json response body
     | patch         | methodNotAllowedResponse.json   |
     | delete        | methodNotAllowedResponse.json   |
 
-@json
+
 Scenario: /json endpoint responds within 200ms
     Given the user sends a POST request to the json endpoint
     When the server receives the request

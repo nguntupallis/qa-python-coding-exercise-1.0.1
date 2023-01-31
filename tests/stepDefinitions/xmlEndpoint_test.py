@@ -12,42 +12,52 @@ from tests.utilities.helpers.apiClient import apiClient
 def test_status_code():
     print("\nTest status code")
 
-pytest.apiUrl = constants.URL
-pytest.xmlEndpoint = constants.XMLENDPOINT
-pytest.response = Response()
+@pytest.fixture
+def xml_shared_data():
+    baseUrl = constants.URL + "/" + constants.XMLENDPOINT
+    request = ""
+    response = Response()
+
+    return [baseUrl, request, response]
 
 @given("I have the endpoint - xml")
-def given_i_have_the_endpoint():
-    pytest.base_url = pytest.apiUrl + "/" + pytest.xmlEndpoint
+def given_i_have_the_endpoint(xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
+
 
 @when("I make the <requestType> request")
-def when_i_make_the_request(requestType):
-    pytest.requestType = requestType
-    pytest.response = requests.request(requestType, pytest.base_url)
+def when_i_make_the_request(requestType, xml_shared_data):
+    baseUrl, request, response = xml_shared_data   
+    request = requestType
+    xml_shared_data[2] = requests.request(requestType, baseUrl)
 
 @then("the request should return <status> status")
-def then_the_request_should_return_status(status):
-    response = pytest.response
-    assert response.status_code == int(status), 'For {} request, Expected {} but {} was returned'.format(pytest.requestType.upper(), status, response.status_code)
+def then_the_request_should_return_status(status, xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
+    assert response.status_code == int(status), 'For {} request, Expected {} but {} was returned'.format(request.upper(), status, response.status_code)
 
 @scenario('../features/xmlEndpoint.feature', 'Check query parameter')
-def test_query_parameter():
+def test_query_parameter(xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
     print("\nCheck query parameter")
 
 @given("the query parameter <queryParameter> is set to <value>")
-def set_query_parameter(queryParameter, value):
+def set_query_parameter(queryParameter, value, xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
     if (queryParameter != "" or value != ""):
-        pytest.base_url = pytest.apiUrl + "/" + pytest.xmlEndpoint + "?" + queryParameter + "=" + value
+        xml_shared_data[0]= constants.URL + "/" + constants.XMLENDPOINT + "?" + queryParameter + "=" + value
     else:
-        pytest.base_url = pytest.apiUrl + "/" + pytest.xmlEndpoint
+        xml_shared_data[0] = constants.URL + "/" + constants.XMLENDPOINT
 
 @when("a user makes a GET request to the /xml endpoint")
-def get_xml_endpoint():
-    pytest.response = requests.get(pytest.base_url)
+def get_xml_endpoint(xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
+    xml_shared_data[2] = requests.get(baseUrl)
 
 @then("the response should <expectedResponse> additional debug information in the XML format")
-def check_response(expectedResponse):
-    soup = BeautifulSoup(pytest.response.content, 'lxml')
+def check_response(expectedResponse, xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
+    soup = BeautifulSoup(response.content, 'lxml')
     debug = soup.find('debug')
     if expectedResponse == "include":
         assert debug is not None, "Debug information not found in the response"
@@ -57,23 +67,27 @@ def check_response(expectedResponse):
         print("Assertion passed: Debug information not found in the response.")  
 
 @scenario('../features/xmlEndpoint.feature', 'Provide invalid parameter')
-def test_invalid_parameter():
+def test_invalid_parameter(xml_shared_data):
+    baseUrl, request, response = xml_shared_data   
     print("\Provide invalid parameter")
 
 @then("the response should be <expectedResponse>")
-def test_response_value_invalid(expectedResponse):
-    assert pytest.response.status_code == 400, 'Expected {} but {} was returned'.format(400, pytest.response.status_code)   
+def test_response_value_invalid(expectedResponse, xml_shared_data):
+    baseUrl, request, response = xml_shared_data   
+    assert response.status_code == 400, 'Expected {} but {} was returned'.format(400, response.status_code)   
     with open(os.path.join('responseBodies', expectedResponse)) as f:
         expected_response = loads(f.read())
-    assert pytest.response.json() == expected_response, 'Expected {} but {} was returned'.format(expected_response, pytest.response.json())   
+    assert response.json() == expected_response, 'Expected {} but {} was returned'.format(expected_response, response.json())   
 
 @scenario('../features/xmlEndpoint.feature', 'Overall outcome is "Accept" unless one of the rules has an outcome of "Decline"')
-def test_overall_outcome():
+def test_overall_outcome(xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
     print("\Overall outcome")
 
 @then('the overall outcome should be "Accept" unless one of the rules has an outcome of "Decline" in which case the overall result should be "Decline"')
-def overall_outcome_verification():
-    soup = BeautifulSoup(pytest.response.content, 'lxml')
+def overall_outcome_verification(xml_shared_data):
+    baseUrl, request, response = xml_shared_data    
+    soup = BeautifulSoup(response.content, 'lxml')
     overall_decision = soup.find('overall').text
     rule_decisions = [rule.text for rule in soup.find_all('rule')]
     assert all(d == 'Accept' for d in rule_decisions) and overall_decision == 'Accept', "Not all decisions are Accept"

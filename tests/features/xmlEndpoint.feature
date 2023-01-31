@@ -1,3 +1,4 @@
+@xml
 Feature: xmlEndpoint
 
 Scenario: Check Status Code
@@ -24,7 +25,6 @@ Examples:
 | debug           | false    | not include      |
 |                 |          | not include      |
 
-@xml
 Scenario: Provide invalid parameter
 Given the query parameter <queryParameter> is set to <value>
 When a user makes a GET request to the /xml endpoint
